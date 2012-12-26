@@ -1,0 +1,139 @@
+# Project: ProfiLua
+# Makefile created by Dev-C++ 4.9.9.2
+
+CPP  = g++.exe
+CC   = gcc.exe
+WINDRES = windres.exe
+RES  = obj/ProfiLua_private.res
+OBJ  = obj/lapi.o obj/lauxlib.o obj/lbaselib.o obj/lcode.o obj/ldblib.o obj/ldebug.o obj/ldo.o obj/ldump.o obj/lfunc.o obj/lgc.o obj/linit.o obj/liolib.o obj/llex.o obj/lmathlib.o obj/lmem.o obj/loadlib.o obj/lobject.o obj/lopcodes.o obj/loslib.o obj/lparser.o obj/lstate.o obj/lstring.o obj/lstrlib.o obj/ltable.o obj/ltablib.o obj/ltm.o obj/lundump.o obj/lvm.o obj/lzio.o obj/print.o obj/profilua.o obj/profilualib.o obj/proficonsole.o obj/profibit.o obj/profimidi.o $(RES)
+LINKOBJ  = obj/lapi.o obj/lauxlib.o obj/lbaselib.o obj/lcode.o obj/ldblib.o obj/ldebug.o obj/ldo.o obj/ldump.o obj/lfunc.o obj/lgc.o obj/linit.o obj/liolib.o obj/llex.o obj/lmathlib.o obj/lmem.o obj/loadlib.o obj/lobject.o obj/lopcodes.o obj/loslib.o obj/lparser.o obj/lstate.o obj/lstring.o obj/lstrlib.o obj/ltable.o obj/ltablib.o obj/ltm.o obj/lundump.o obj/lvm.o obj/lzio.o obj/print.o obj/profilua.o obj/profilualib.o obj/proficonsole.o obj/profibit.o obj/profimidi.o $(RES)
+LIBS =  -L"C:/WINDOWSPRG/DevCpp/lib" --no-export-all-symbols --add-stdcall-alias -lwinmm  
+INCS =  -I"C:/WINDOWSPRG/DevCpp/include" 
+CXXINCS =  -I"C:/WINDOWSPRG/DevCpp/lib/gcc/mingw32/3.4.2/include"  -I"C:/WINDOWSPRG/DevCpp/include/c++/3.4.2/backward"  -I"C:/WINDOWSPRG/DevCpp/include/c++/3.4.2/mingw32"  -I"C:/WINDOWSPRG/DevCpp/include/c++/3.4.2"  -I"C:/WINDOWSPRG/DevCpp/include" 
+BIN  = out/ProfiLua_V09c.dll
+CXXFLAGS = $(CXXINCS) -DBUILDING_DLL=1   -fexpensive-optimizations -O3
+CFLAGS = $(INCS) -DBUILDING_DLL=1 -Wall   -fexpensive-optimizations -O3
+RM = rm -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before out/ProfiLua_V09c.dll all-after
+
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+DLLWRAP=dllwrap.exe
+DEFFILE=out/libProfiLua_V09c.def
+STATICLIB=out/libProfiLua_V09c.a
+
+$(BIN): $(LINKOBJ)
+	$(DLLWRAP) --output-def $(DEFFILE) --implib $(STATICLIB) $(LINKOBJ) $(LIBS) -o $(BIN)
+
+obj/lapi.o: src/lapi.c
+	$(CC) -c src/lapi.c -o obj/lapi.o $(CFLAGS)
+
+obj/lauxlib.o: src/lauxlib.c
+	$(CC) -c src/lauxlib.c -o obj/lauxlib.o $(CFLAGS)
+
+obj/lbaselib.o: src/lbaselib.c
+	$(CC) -c src/lbaselib.c -o obj/lbaselib.o $(CFLAGS)
+
+obj/lcode.o: src/lcode.c
+	$(CC) -c src/lcode.c -o obj/lcode.o $(CFLAGS)
+
+obj/ldblib.o: src/ldblib.c
+	$(CC) -c src/ldblib.c -o obj/ldblib.o $(CFLAGS)
+
+obj/ldebug.o: src/ldebug.c
+	$(CC) -c src/ldebug.c -o obj/ldebug.o $(CFLAGS)
+
+obj/ldo.o: src/ldo.c
+	$(CC) -c src/ldo.c -o obj/ldo.o $(CFLAGS)
+
+obj/ldump.o: src/ldump.c
+	$(CC) -c src/ldump.c -o obj/ldump.o $(CFLAGS)
+
+obj/lfunc.o: src/lfunc.c
+	$(CC) -c src/lfunc.c -o obj/lfunc.o $(CFLAGS)
+
+obj/lgc.o: src/lgc.c
+	$(CC) -c src/lgc.c -o obj/lgc.o $(CFLAGS)
+
+obj/linit.o: src/linit.c
+	$(CC) -c src/linit.c -o obj/linit.o $(CFLAGS)
+
+obj/liolib.o: src/liolib.c
+	$(CC) -c src/liolib.c -o obj/liolib.o $(CFLAGS)
+
+obj/llex.o: src/llex.c
+	$(CC) -c src/llex.c -o obj/llex.o $(CFLAGS)
+
+obj/lmathlib.o: src/lmathlib.c
+	$(CC) -c src/lmathlib.c -o obj/lmathlib.o $(CFLAGS)
+
+obj/lmem.o: src/lmem.c
+	$(CC) -c src/lmem.c -o obj/lmem.o $(CFLAGS)
+
+obj/loadlib.o: src/loadlib.c
+	$(CC) -c src/loadlib.c -o obj/loadlib.o $(CFLAGS)
+
+obj/lobject.o: src/lobject.c
+	$(CC) -c src/lobject.c -o obj/lobject.o $(CFLAGS)
+
+obj/lopcodes.o: src/lopcodes.c
+	$(CC) -c src/lopcodes.c -o obj/lopcodes.o $(CFLAGS)
+
+obj/loslib.o: src/loslib.c
+	$(CC) -c src/loslib.c -o obj/loslib.o $(CFLAGS)
+
+obj/lparser.o: src/lparser.c
+	$(CC) -c src/lparser.c -o obj/lparser.o $(CFLAGS)
+
+obj/lstate.o: src/lstate.c
+	$(CC) -c src/lstate.c -o obj/lstate.o $(CFLAGS)
+
+obj/lstring.o: src/lstring.c
+	$(CC) -c src/lstring.c -o obj/lstring.o $(CFLAGS)
+
+obj/lstrlib.o: src/lstrlib.c
+	$(CC) -c src/lstrlib.c -o obj/lstrlib.o $(CFLAGS)
+
+obj/ltable.o: src/ltable.c
+	$(CC) -c src/ltable.c -o obj/ltable.o $(CFLAGS)
+
+obj/ltablib.o: src/ltablib.c
+	$(CC) -c src/ltablib.c -o obj/ltablib.o $(CFLAGS)
+
+obj/ltm.o: src/ltm.c
+	$(CC) -c src/ltm.c -o obj/ltm.o $(CFLAGS)
+
+obj/lundump.o: src/lundump.c
+	$(CC) -c src/lundump.c -o obj/lundump.o $(CFLAGS)
+
+obj/lvm.o: src/lvm.c
+	$(CC) -c src/lvm.c -o obj/lvm.o $(CFLAGS)
+
+obj/lzio.o: src/lzio.c
+	$(CC) -c src/lzio.c -o obj/lzio.o $(CFLAGS)
+
+obj/print.o: src/print.c
+	$(CC) -c src/print.c -o obj/print.o $(CFLAGS)
+
+obj/profilua.o: src/profilua.c
+	$(CC) -c src/profilua.c -o obj/profilua.o $(CFLAGS)
+
+obj/profilualib.o: src/profilualib.c
+	$(CC) -c src/profilualib.c -o obj/profilualib.o $(CFLAGS)
+
+obj/proficonsole.o: src/proficonsole.c
+	$(CC) -c src/proficonsole.c -o obj/proficonsole.o $(CFLAGS)
+
+obj/profibit.o: src/profibit.c
+	$(CC) -c src/profibit.c -o obj/profibit.o $(CFLAGS)
+
+obj/profimidi.o: src/profimidi.c
+	$(CC) -c src/profimidi.c -o obj/profimidi.o $(CFLAGS)
+
+obj/ProfiLua_private.res: ProfiLua_private.rc 
+	$(WINDRES) -i ProfiLua_private.rc --input-format=rc -o obj/ProfiLua_private.res -O coff 
