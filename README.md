@@ -1,7 +1,7 @@
 ProfiLua
 ========
 
-A Lua extension for Profilab [http://www.abacom-online.de/html/profilab-expert.html][1].
+A Lua extension for Profilab [http://www.abacom-online.de/html/profilab-expert.html][1].  
 For binaries, examples and more, see [http://www.askrprojects.net/software/profilua/index.html][2]
 
 ---
