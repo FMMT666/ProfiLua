@@ -7,17 +7,17 @@
 //
 //
 //
-// Copyright © 2010 ASkr, www.askrprojects.net
+// Copyright © 2010, 2014 ASkr, www.askrprojects.net
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of
 // this software and associated documentation files (the "Software"), to deal in the
 // Software without restriction, including without limitation the rights to
 // use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
 // of the Software, and to permit persons to whom the Software is furnished to do so,
-// subject to the following conditions: 
+// subject to the following conditions:
 //
 // The above copyright notice and this permission notice shall be included in all copies
-// or substantial portions of the Software. 
+// or substantial portions of the Software.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
 // INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
@@ -101,7 +101,7 @@ uchar OpenLuaScript()
 	sprintf((uchar *)&fname,"%d.lua",gFileNum);
 	luaL_loadfile(L,fname);
 	lua_pcall(L, 0, LUA_MULTRET, 0);
-	
+
 	return 1;
 }
 
@@ -133,18 +133,18 @@ void CloseLuaScript()
 uchar _stdcall CNumInputsEx(double *PUser)
 {
 	gFileNum = (uchar)PUser[100];
-	
+
 	if( OpenLuaScript() )
 	{
-		lua_getglobal(L, "gNumInputs");	
-		if( !lua_isnil(L, -1) )	
+		lua_getglobal(L, "gNumInputs");
+		if( !lua_isnil(L, -1) )
 			gNumInputs = (uchar)lua_tonumber(L, -1) + 1;  // extra CONSOLE pin
 
 		CloseLuaScript();
 	}
 	else
 		gERROR = 1;
-	
+
 	return gNumInputs;
 }
 
@@ -153,18 +153,18 @@ uchar _stdcall CNumInputsEx(double *PUser)
 //****************************************************************************
 //*** CNumOutputsEx
 //***
-//*** 
+//***
 //****************************************************************************
 uchar _stdcall CNumOutputsEx(double *PUser)
 {
 	gFileNum = (uchar)PUser[100];
-	
+
 	if( OpenLuaScript() )
 	{
-		lua_getglobal(L, "gNumOutputs");	
-		if( !lua_isnil(L, -1) )	
+		lua_getglobal(L, "gNumOutputs");
+		if( !lua_isnil(L, -1) )
 			gNumOutputs = (uchar)lua_tonumber(L, -1) + 1; // extra ERROR pin
-			
+
 		CloseLuaScript();
 	}
 	else
@@ -194,12 +194,12 @@ void _stdcall GetInputName(uchar Channel, uchar *Name)
 		{
 			lua_pushstring(L,"gInputName");
 			lua_gettable(L, LUA_GLOBALSINDEX);
-		
+
 			if(lua_isfunction(L,-1))
 			{
 				lua_pushinteger(L,Channel);
 				lua_call(L, 1, 1);
-		
+
 				if (lua_isstring(L, -1))
 				{
 					strcpy(Name,(uchar *)lua_tostring(L, -1));
@@ -207,10 +207,10 @@ void _stdcall GetInputName(uchar Channel, uchar *Name)
 					if( *Name == '$' )
 						gInStrMarker[Channel] = 1;
 				}
-					
+
 				lua_pop(L, 1);
 			}
-			
+
 			CloseLuaScript();
 		}
 	}
@@ -237,12 +237,12 @@ void _stdcall GetOutputName(unsigned char Channel, unsigned char *Name)
 		{
 			lua_pushstring(L,"gOutputName");
 			lua_gettable(L, LUA_GLOBALSINDEX);
-		
+
 			if(lua_isfunction(L,-1))
 			{
 				lua_pushinteger(L,Channel);
 				lua_call(L, 1, 1);
-		
+
 				if (lua_isstring(L, -1))
 				{
 					strcpy(Name,(uchar *)lua_tostring(L, -1));
@@ -252,11 +252,11 @@ void _stdcall GetOutputName(unsigned char Channel, unsigned char *Name)
 
 				lua_pop(L, 1);
 			}
-			
+
 			CloseLuaScript();
 		}// if OpenLuaScript
 	}// else
-	
+
 }
 
 
@@ -311,7 +311,7 @@ void _stdcall CCalculateEx(double *PInput, double *POutput, double *PUser, uchar
 
 	if(lua_isfunction(L,-1))
 	{
-		// put arguments (table) onto stack		
+		// put arguments (table) onto stack
 		lua_createtable(L,gNumInputs - 1,0);
 		for(i=1;i<gNumInputs;i++)
 		{
@@ -322,7 +322,7 @@ void _stdcall CCalculateEx(double *PInput, double *POutput, double *PUser, uchar
 				lua_pushnumber(L,PInput[i]);
 	  	lua_settable(L,-3);
 	  }
-	  
+
 		// leaves exactly one table on stack
 		lua_call(L,1,1);
 
@@ -341,7 +341,7 @@ void _stdcall CCalculateEx(double *PInput, double *POutput, double *PUser, uchar
 						// future upgrade:
 						// ignore zeros
 //							strncpy(PString[i],((uchar *)lua_tolstring (L,-1,&len)),len);
-						
+
 					else
 					{
 						*PString[i] = 0;
@@ -364,12 +364,12 @@ void _stdcall CCalculateEx(double *PInput, double *POutput, double *PUser, uchar
 			} // end for
 
 			lua_pop(L, 1);
-			
+
 		} // end if istable
 		else
 			gERROR = 1;
-			
-		
+
+
 	} // end if isfunction
 	else
 		gERROR = 1;
@@ -381,13 +381,13 @@ void _stdcall CCalculateEx(double *PInput, double *POutput, double *PUser, uchar
 //****************************************************************************
 //*** CSimStartFlaw
 //***
-//*** 
+//***
 //****************************************************************************
 void CSimStartFlaw(double *PInput, double *POutput, double *PUser)
 {
 	int i;
 	char dummy[100]; // might overflow!
-	
+
 	gERROR = 1;
 	POutput[0] = PL_ERROR;
 
@@ -430,7 +430,7 @@ void CSimStartFlaw(double *PInput, double *POutput, double *PUser)
 
 		if(lua_isfunction(L,-1))
 		{
-			// put arguments (table) onto stack		
+			// put arguments (table) onto stack
 			lua_createtable(L,gNumInputs - 1,0);
 			for(i=1;i<gNumInputs;i++)
 			{
@@ -441,7 +441,7 @@ void CSimStartFlaw(double *PInput, double *POutput, double *PUser)
 					lua_pushnumber(L,PInput[i]);
 		  	lua_settable(L,-3);
 		  }
-		  
+
 			// call pStartSim; leaves exactly one table on stack
 			lua_call(L,1,1);
 
@@ -452,7 +452,7 @@ void CSimStartFlaw(double *PInput, double *POutput, double *PUser)
 				{
 					lua_pushnumber(L,i);
 					lua_gettable(L,-2);
-					
+
 					if( gOutStrMarker[i] )
 						; //	lua_pop(L,1);						// **************************************
 					else
@@ -468,16 +468,16 @@ void CSimStartFlaw(double *PInput, double *POutput, double *PUser)
 					}
 					lua_pop(L,1);
 				} // end for
-	
+
 				lua_pop(L, 1);
-				
+
 			} // end if istable
 			else
 				gERROR = 1;
 
 			POutput[0] = PL_OK;
 			gERROR = 0;
-			
+
 		} // if isfunction
 	} // if OpenLua
 }
@@ -495,11 +495,11 @@ void CSimStartFlaw(double *PInput, double *POutput, double *PUser)
 //****************************************************************************
 void _stdcall CSimStart(double *PInput, double *POutput, double *PUser)
 {
-	
+
 	// call init routine in CCalculate ONCE
 	gCSimStartOverride = 1;
 
-	// ALL THE OTHER STUFF MOVED TO CSimStartFlaw()	
+	// ALL THE OTHER STUFF MOVED TO CSimStartFlaw()
 
 }
 
@@ -522,7 +522,7 @@ void _stdcall CSimStop(double *PInput, double *POutput, double *PUser)
 
 		if(lua_isfunction(L,-1))
 		{
-			// put arguments (table) onto stack		
+			// put arguments (table) onto stack
 			lua_createtable(L,gNumInputs - 1,0);
 			for(i=1;i<gNumInputs;i++)
 			{
@@ -539,12 +539,12 @@ void _stdcall CSimStop(double *PInput, double *POutput, double *PUser)
 		}
 		else
 			gERROR = 1;
-			
+
 		// *NEW* v0.9b
 		// Read back global gPUser table and store results back in PUser.
 		lua_pushstring(L,"gPUser");
 		lua_gettable(L, LUA_GLOBALSINDEX);
-			
+
 		if (lua_istable(L, -1))
 		{
 			// read back 0-99 (1-100 inside ProfiLua); 101 skipped (# of DLL)
@@ -552,7 +552,7 @@ void _stdcall CSimStop(double *PInput, double *POutput, double *PUser)
 			{
 				lua_pushnumber(L,i+1);
 				lua_gettable(L,-2);
-					
+
 				if( lua_isnumber(L,-1) )
 					PUser[i] = lua_tonumber(L,-1);
 				else
@@ -564,18 +564,18 @@ void _stdcall CSimStop(double *PInput, double *POutput, double *PUser)
 			}// end for
 			lua_pop(L,1);
 		}// end istable
-			
+
 	}// end !gERROR
-	
+
 	CloseLuaScript();
-	
+
 	if( gConsole == 1)
 	{
 		DebugConsoleOff();
 		gConsole = 0;
 		gConsoleTop = 0;
 	}
-	
+
 }
 
 

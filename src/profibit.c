@@ -1,3 +1,15 @@
+//
+// ProfiLua
+//
+// Lua for Profilab
+//
+// (c) ASkr, www.askrprojects.net
+//
+//
+//
+// Copyright © 2010, 2014 ASkr, www.askrprojects.net
+
+
 /*
 ** Lua BitOp -- a bit operations library for Lua 5.1.
 ** http://bitop.luajit.org/
@@ -25,6 +37,8 @@
 **
 ** [ MIT license: http://www.opensource.org/licenses/mit-license.php ]
 */
+
+
 
 #define LUA_BITOP_VERSION	"1.0.1"
 
@@ -183,7 +197,7 @@ static const struct luaL_Reg bit_funcs[] = {
 
 LUALIB_API int luaopen_profibit(lua_State *L)
 {
-/*	
+/*
   UBits b;
   lua_pushnumber(L, (lua_Number)1437217655L);
   b = barg(L, -1);

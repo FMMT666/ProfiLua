@@ -7,17 +7,17 @@
 //
 //
 //
-// Copyright © 2010 ASkr, www.askrprojects.net
+// Copyright © 2010, 2014 ASkr, www.askrprojects.net
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of
 // this software and associated documentation files (the "Software"), to deal in the
 // Software without restriction, including without limitation the rights to
 // use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
 // of the Software, and to permit persons to whom the Software is furnished to do so,
-// subject to the following conditions: 
+// subject to the following conditions:
 //
 // The above copyright notice and this permission notice shall be included in all copies
-// or substantial portions of the Software. 
+// or substantial portions of the Software.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
 // INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
@@ -78,7 +78,7 @@ void DebugConsoleOff()
 	fflush(fout);
 	fclose(fout);
 	fout = NULL;
-	
+
 	fclose(fin);
 	fin = NULL;
 
@@ -130,7 +130,7 @@ void DebugConsoleOn()
 	FILE *f;
 
 	AllocConsole();
-	
+
 	SetConsoleTitle(PROFICONSOLENAME);
 	SetConsoleMode(GetStdHandle(STD_OUTPUT_HANDLE),ENABLE_PROCESSED_INPUT);
 
@@ -140,7 +140,7 @@ void DebugConsoleOn()
 
 	SetConsoleCtrlHandler((void *)&DebugConsoleHandler,TRUE);
 
-	
+
 	StdOutHandle = (long)GetStdHandle(STD_OUTPUT_HANDLE);
 	hConHandle = _open_osfhandle(StdOutHandle, _O_TEXT);
 	fout = stdout;

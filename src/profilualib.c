@@ -7,17 +7,17 @@
 //
 //
 //
-// Copyright © 2010 ASkr, www.askrprojects.net
+// Copyright © 2010, 2014 ASkr, www.askrprojects.net
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of
 // this software and associated documentation files (the "Software"), to deal in the
 // Software without restriction, including without limitation the rights to
 // use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
 // of the Software, and to permit persons to whom the Software is furnished to do so,
-// subject to the following conditions: 
+// subject to the following conditions:
 //
 // The above copyright notice and this permission notice shall be included in all copies
-// or substantial portions of the Software. 
+// or substantial portions of the Software.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
 // INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
@@ -45,10 +45,10 @@
 
 //**************************************************************************************
 //*** getkey
-//*** 
+//***
 //***     !DO NOT USE THIS!
 //***     It won't work after the console was closed and then reopened.
-//*** 
+//***
 //*** returns:
 //***  keycode - if a key was pressed
 //***  nil     - if no key was pressed
@@ -74,8 +74,8 @@ static const luaL_Reg profilua[] =
 
 //**************************************************************************************
 //*** luaopen_profilua
-//*** 
-//*** 
+//***
+//***
 //**************************************************************************************
 LUALIB_API int luaopen_profilua (lua_State *L)
 {
@@ -86,17 +86,17 @@ LUALIB_API int luaopen_profilua (lua_State *L)
 	// add a variable for ProfiLua version
 	lua_pushstring(L,PROFILUAVERSION);
 	lua_setglobal(L,"PROFILUAVERSION");
-	
+
 	// add a variable for logic low and high outputs
 	lua_pushnumber(L,LOGIC_HIGH);
 	lua_setglobal(L,"gHIGH");
 	lua_pushnumber(L,LOGIC_LOW);
 	lua_setglobal(L,"gLOW");
-	
+
 	// add a variable for logic threshold
 	lua_pushnumber(L,LOGIC_HIGH_THRES);
 	lua_setglobal(L,"gISHIGH");
-	
-  
+
+
   return 1;
 }

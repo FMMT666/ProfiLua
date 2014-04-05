@@ -7,17 +7,17 @@
 //
 //
 //
-// Copyright © 2010 ASkr, www.askrprojects.net
+// Copyright © 2010, 2014 ASkr, www.askrprojects.net
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of
 // this software and associated documentation files (the "Software"), to deal in the
 // Software without restriction, including without limitation the rights to
 // use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
 // of the Software, and to permit persons to whom the Software is furnished to do so,
-// subject to the following conditions: 
+// subject to the following conditions:
 //
 // The above copyright notice and this permission notice shall be included in all copies
-// or substantial portions of the Software. 
+// or substantial portions of the Software.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
 // INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
@@ -27,7 +27,7 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#define PROFILUAVERSION    "v0.9c"
+#define PROFILUAVERSION    "v1.0"
 
 #ifndef uchar
 #define uchar unsigned char
@@ -58,6 +58,6 @@ DLLIMPORT void _stdcall CCalculateEx(double *PInput, double *POutput, double *PU
 DLLIMPORT void _stdcall CSimStart(double *PInput, double *POutput, double *PUser);
 DLLIMPORT void _stdcall CSimStop(double *PInput, double *POutput, double *PUser);
 
-//DLLIMPORT void _stdcall CConfigure(double *PUser);                                   
+//DLLIMPORT void _stdcall CConfigure(double *PUser);
 
 #endif

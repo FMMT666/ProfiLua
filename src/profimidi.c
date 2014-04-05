@@ -7,17 +7,17 @@
 //
 //
 //
-// Copyright © 2010 ASkr, www.askrprojects.net
+// Copyright © 2010, 2014 ASkr, www.askrprojects.net
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of
 // this software and associated documentation files (the "Software"), to deal in the
 // Software without restriction, including without limitation the rights to
 // use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
 // of the Software, and to permit persons to whom the Software is furnished to do so,
-// subject to the following conditions: 
+// subject to the following conditions:
 //
 // The above copyright notice and this permission notice shall be included in all copies
-// or substantial portions of the Software. 
+// or substantial portions of the Software.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
 // INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
@@ -90,7 +90,7 @@ tMidiInDev *pMidiInDevList = NULL;
 
 //**************************************************************************************
 //*** dbgShowMidiInEventList
-//*** 
+//***
 //*** Prints out the contents of *dev's *event list.
 //**************************************************************************************
 void dbgShowMidiInEventList(tMidiInDev *dev)
@@ -98,9 +98,9 @@ void dbgShowMidiInEventList(tMidiInDev *dev)
 	tMidiInEvent *p;
 	if( dev == NULL )
 		return;
-		
+
 	p=dev->pMidiInEventList;
-	
+
 	fprintf(stdout,"DEV %d:",dev->Number);
 	while( p != NULL)
 	{
@@ -114,7 +114,7 @@ void dbgShowMidiInEventList(tMidiInDev *dev)
 
 //**************************************************************************************
 //*** AddMidiInEvent
-//*** 
+//***
 //*** Adds a MIDI event to the start of the corresponding IN device list.
 //**************************************************************************************
 void AddMidiInEvent(tMidiInDev *dev, tMidiInEvent *event)
@@ -129,7 +129,7 @@ void AddMidiInEvent(tMidiInDev *dev, tMidiInEvent *event)
 
 //**************************************************************************************
 //*** RemoveMidiInEvent
-//*** 
+//***
 //*** Removes and returns the last event of the list (if any).
 //*** Event and data bytes will be passed to *event.
 //*** If *event is NULL, this functions can be used to clear the event list,
@@ -141,13 +141,13 @@ void AddMidiInEvent(tMidiInDev *dev, tMidiInEvent *event)
 int RemoveMidiInEvent(tMidiInDev *dev, tMidiInEvent *event)
 {
 	tMidiInEvent *p, *pprev = NULL;
-	
+
 	if( dev == NULL )
 		return -1;
 
 	if( (p=dev->pMidiInEventList) == NULL )
 		return -1;
-		
+
 	while( p->next != NULL )
 	{
 		pprev = p;
@@ -161,22 +161,22 @@ int RemoveMidiInEvent(tMidiInDev *dev, tMidiInEvent *event)
 		pprev->next = NULL;
 
 	if( event != NULL)
-	{		
+	{
 		event->event = p->event;
 		event->dat1  = p->dat1;
 		event->dat2  = p->dat2;
 		event->next  = NULL;	// just in case...
 	}
-	
+
 	free(p);
-	
+
 	return 0;
 }
 
 
 //**************************************************************************************
 //*** AddMidiOut
-//*** 
+//***
 //*** Adds a tMidiOutDev handle to the list of opened OUT devices.
 //**************************************************************************************
 void AddMidiOut(tMidiOutDev *tmp)
@@ -191,7 +191,7 @@ void AddMidiOut(tMidiOutDev *tmp)
 
 //**************************************************************************************
 //*** AddMidiIn
-//*** 
+//***
 //*** Adds a tMidiInDev handle to the list of opened IN devices.
 //**************************************************************************************
 void AddMidiIn(tMidiInDev *tmp)
@@ -206,7 +206,7 @@ void AddMidiIn(tMidiInDev *tmp)
 
 //**************************************************************************************
 //*** RemoveMidiOut
-//*** 
+//***
 //*** Removes a tMidiOutDev handle from the list of opened OUT devices.
 //**************************************************************************************
 void RemoveMidiOut(tMidiOutDev *tmp)
@@ -228,7 +228,7 @@ void RemoveMidiOut(tMidiOutDev *tmp)
 				break;
 			}
 			p = p->next;
-		}	
+		}
 
 	free(tmp);
 
@@ -238,7 +238,7 @@ void RemoveMidiOut(tMidiOutDev *tmp)
 
 //**************************************************************************************
 //*** RemoveMidiIn
-//*** 
+//***
 //*** Removes a tMidiInDev handle from the list of opened IN devices.
 //**************************************************************************************
 void RemoveMidiIn(tMidiInDev *tmp)
@@ -260,8 +260,8 @@ void RemoveMidiIn(tMidiInDev *tmp)
 				break;
 			}
 			p = p->next;
-		}	
-	
+		}
+
 	while( RemoveMidiInEvent(tmp,NULL) >= 0 )
 	{;}
 	free(tmp);
@@ -271,7 +271,7 @@ void RemoveMidiIn(tMidiInDev *tmp)
 
 //**************************************************************************************
 //*** GetMidiOutEntry
-//*** 
+//***
 //*** Returns the valid tMidiOutDev handler for the opened device number <num>
 //**************************************************************************************
 tMidiOutDev *GetMidiOutEntry(unsigned num)
@@ -290,14 +290,14 @@ tMidiOutDev *GetMidiOutEntry(unsigned num)
 		p = p->next;
 	}
 
-	return p;	
+	return p;
 }
 
 
 
 //**************************************************************************************
 //*** GetMidiInEntry
-//*** 
+//***
 //*** Returns the valid tMidiInDev handler for the opened device number <num>
 //**************************************************************************************
 tMidiInDev *GetMidiInEntry(unsigned num)
@@ -316,14 +316,14 @@ tMidiInDev *GetMidiInEntry(unsigned num)
 		p = p->next;
 	}
 
-	return p;	
+	return p;
 }
 
 
 
 //**************************************************************************************
 //*** MidiSend
-//*** 
+//***
 //*** Sends a MIDI message
 //**************************************************************************************
 static int MidiSend(tMidiOutDev *dev, unsigned char msg, unsigned char key, unsigned char vel)
@@ -344,14 +344,14 @@ static int MidiSend(tMidiOutDev *dev, unsigned char msg, unsigned char key, unsi
 
 	// no error checks, right now...
 	midiOutShortMsg(dev->Handle, mmsg.wval);
-	
-	return 0; 
+
+	return 0;
 }
 
 
 //**************************************************************************************
 //*** MidiReceive CALLBACK FUNCTION
-//*** 
+//***
 //*** Saves any NOTEON/OFF, CONTROL CHANGE or PITCH BEND in the device buffer event list.
 //**************************************************************************************
 void CALLBACK MidiReceive(HMIDIIN dev, UINT msg, DWORD_PTR instdat, DWORD_PTR msgpar, DWORD_PTR time)
@@ -362,7 +362,7 @@ void CALLBACK MidiReceive(HMIDIIN dev, UINT msg, DWORD_PTR instdat, DWORD_PTR ms
 		unsigned char cval[4];
 	} mmsg;
 	tMidiInEvent *ev;
-	
+
 	mmsg.wval = msgpar;
 
 	// only handle these events...
@@ -373,12 +373,12 @@ void CALLBACK MidiReceive(HMIDIIN dev, UINT msg, DWORD_PTR instdat, DWORD_PTR ms
 	{
 		if( (ev=malloc(sizeof(tMidiInEvent))) == NULL )
 			return;
-		
+
 		ev->event = mmsg.cval[0];
 		ev->dat1  = mmsg.cval[1];
 		ev->dat2  = mmsg.cval[2];
 		ev->next  = NULL;
-		
+
 		AddMidiInEvent(GetMidiInEntry(instdat) ,ev);
 	}
 }
@@ -387,7 +387,7 @@ void CALLBACK MidiReceive(HMIDIIN dev, UINT msg, DWORD_PTR instdat, DWORD_PTR ms
 
 //**************************************************************************************
 //*** plOpenMidiOut
-//*** 
+//***
 //*** Opens a MIDIOUT device
 //*** LUA STACK IN:
 //***  L1 -> number of device
@@ -404,14 +404,14 @@ static int plOpenMidiOut(lua_State *L)
 	if( lua_gettop(L) != 1 )
 	{
 		lua_pushnumber(L, -1);
-		return 1; 
+		return 1;
 	}
 
 	// do not open the same device a second time
 	if( GetMidiOutEntry(luaL_checkinteger(L,1)) != NULL )
 	{
 		lua_pushnumber(L, -2);
-		return 1; 
+		return 1;
 	}
 
 	if( midiOutOpen(&handle, (i=luaL_checkinteger(L,1)), 0, 0, CALLBACK_NULL) != MMSYSERR_NOERROR)
@@ -422,7 +422,7 @@ static int plOpenMidiOut(lua_State *L)
 		if( tmp == NULL )
 			lua_pushnumber(L, -4);
 		else
-		{		
+		{
 			tmp->Number = i;
 			tmp->Handle = handle;
 			AddMidiOut(tmp);
@@ -437,7 +437,7 @@ static int plOpenMidiOut(lua_State *L)
 
 //**************************************************************************************
 //*** plOpenMidiIn
-//*** 
+//***
 //*** Opens a MIDIIN device
 //*** LUA STACK IN:
 //***  L1 -> number of device
@@ -454,14 +454,14 @@ static int plOpenMidiIn(lua_State *L)
 	if( lua_gettop(L) != 1 )
 	{
 		lua_pushnumber(L, -1);
-		return 1; 
+		return 1;
 	}
 
 	// do not open the same device a second time
 	if( GetMidiInEntry(luaL_checkinteger(L,1)) != NULL )
 	{
 		lua_pushnumber(L, -2);
-		return 1; 
+		return 1;
 	}
 
 	if( midiInOpen(&handle, (i=luaL_checkinteger(L,1)), (DWORD_PTR)&MidiReceive, i, CALLBACK_FUNCTION) != MMSYSERR_NOERROR)
@@ -475,7 +475,7 @@ static int plOpenMidiIn(lua_State *L)
 			lua_pushnumber(L, -4);
 		}
 		else
-		{		
+		{
 			tmp->Number = i;
 			tmp->Handle = handle;
 			tmp->pMidiInEventList = NULL;
@@ -492,7 +492,7 @@ static int plOpenMidiIn(lua_State *L)
 
 //**************************************************************************************
 //*** plCloseMidiOut
-//*** 
+//***
 //*** Closes a MIDIOUT device
 //*** LUA STACK IN:
 //***  L1 -> number of device
@@ -520,15 +520,15 @@ static int plCloseMidiOut(lua_State *L)
 	else
 		lua_pushnumber(L,-2);
 
-	return 1; 
-	
+	return 1;
+
 }
 
 
 
 //**************************************************************************************
 //*** plCloseMidiIn
-//*** 
+//***
 //*** Closes a MIDIIN device
 //*** LUA STACK IN:
 //***  L1 -> number of device
@@ -556,8 +556,8 @@ static int plCloseMidiIn(lua_State *L)
 	else
 		lua_pushnumber(L,-2);
 
-	return 1; 
-	
+	return 1;
+
 }
 
 
@@ -567,7 +567,7 @@ static int plCloseMidiIn(lua_State *L)
 
 //**************************************************************************************
 //*** plPlayNote
-//*** 
+//***
 //*** Plays a note
 //*** LUA STACK IN:
 //***  L1 -> number of MidiIn device
@@ -593,32 +593,32 @@ static int plPlayNote(lua_State *L)
 	if( (tmp=GetMidiOutEntry(luaL_checkinteger(L,1))) == NULL )
 	{
 		lua_pushnumber(L,-2);
-		return 1; 
+		return 1;
 	}
 
 	channel = luaL_checkinteger(L,2);
 	if(( channel < 1 )||( channel > 16 ) )
 	{
 		lua_pushnumber(L,-2);
-		return 1; 
+		return 1;
 	}
 
 	--channel;
-	
+
 	MidiSend(tmp,
 	 (unsigned char)(luaL_checkinteger(L,5) & 0xf0) | (unsigned char)channel,
 	 (unsigned char)luaL_checkinteger(L,3),
 	 (unsigned char)luaL_checkinteger(L,4));
 
 	lua_pushnumber(L,0);
-	return 1; 
-	
+	return 1;
+
 }
 
 
 //**************************************************************************************
 //*** plCountDevices
-//*** 
+//***
 //*** Counts number of attached MIDIIN or MIDIOUT devices
 //*** LUA STACK IN:
 //***  L1 -> MIDIIN/MIDIOUT
@@ -638,7 +638,7 @@ static int plCountDevices(lua_State *L)
 		case MIDIOUT: lua_pushinteger(L, midiOutGetNumDevs()); break;
 		default: lua_pushinteger(L, 0);
 	}
-	
+
 	return 1;
 }
 
@@ -646,7 +646,7 @@ static int plCountDevices(lua_State *L)
 
 //**************************************************************************************
 //*** plGetMidiOutName
-//*** 
+//***
 //*** Returns the name of an attached MIDIOUT device.
 //*** LUA STACK IN:
 //***  L1 -> number of device
@@ -657,7 +657,7 @@ static int plCountDevices(lua_State *L)
 static int plGetMidiOutName(lua_State *L)
 {
 	MIDIOUTCAPS mcaps;
-	
+
 	if( lua_gettop(L) != 1 )
 	{
 		lua_pushnil(L);
@@ -668,7 +668,7 @@ static int plGetMidiOutName(lua_State *L)
 		lua_pushnil(L);
 	else
 		lua_pushstring(L,(char *)&mcaps.szPname);
-	
+
 	return 1;
 }
 
@@ -676,7 +676,7 @@ static int plGetMidiOutName(lua_State *L)
 
 //**************************************************************************************
 //*** plGetMidiInName
-//*** 
+//***
 //*** Returns the name of an attached MIDIIN device.
 //*** LUA STACK IN:
 //***  L1 -> number of device
@@ -687,7 +687,7 @@ static int plGetMidiOutName(lua_State *L)
 static int plGetMidiInName(lua_State *L)
 {
 	MIDIINCAPS mcaps;
-	
+
 	if( lua_gettop(L) != 1 )
 	{
 		lua_pushnil(L);
@@ -698,14 +698,14 @@ static int plGetMidiInName(lua_State *L)
 		lua_pushnil(L);
 	else
 		lua_pushstring(L,(char *)&mcaps.szPname);
-	
+
 	return 1;
 }
 
 
 //**************************************************************************************
 //*** plGetEvent
-//*** 
+//***
 //*** Returns the oldest MIDI event of a device (L,1).
 //*** LUA STACK IN:
 //***  L1 -> number of MidiIn device
@@ -716,7 +716,7 @@ static int plGetMidiInName(lua_State *L)
 static int plGetEvent(lua_State *L)
 {
 	tMidiInEvent ev;
-	
+
 	if( lua_gettop(L) != 1 )
 	{
 		lua_pushnil(L);
@@ -733,7 +733,7 @@ static int plGetEvent(lua_State *L)
 	}
 	else
 		lua_pushnil(L);
-	
+
 	return 1;
 }
 
@@ -755,16 +755,16 @@ static const struct luaL_Reg midi_funcs[] = {
 
 //**************************************************************************************
 //*** luaopen_profimidi
-//*** 
-//*** 
+//***
+//***
 //**************************************************************************************
 LUALIB_API int luaopen_profimidi(lua_State *L)
 {
   luaL_register(L, "promidi", midi_funcs);
-  
+
 	lua_pushinteger(L,MIDIIN);
 	lua_setglobal(L,"MIDIIN");
-  
+
 	lua_pushinteger(L,MIDIOUT);
 	lua_setglobal(L,"MIDIOUT");
 
@@ -779,7 +779,7 @@ LUALIB_API int luaopen_profimidi(lua_State *L)
 
 	lua_pushinteger(L,PITCH);
 	lua_setglobal(L,"PITCH");
-  
+
   return 1;
 }
 
