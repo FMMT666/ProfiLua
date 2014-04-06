@@ -27,40 +27,57 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#define PROFILUAVERSION    "v1.0"
 
-#ifndef uchar
-#define uchar unsigned char
-#endif
+#include <windows.h>
+#include <stdint.h>
+#include <mem.h>
 
+#define LUA_LIB
 
-#define LOGIC_HIGH         5.0	// a high state
-#define LOGIC_LOW          0    // a low state
-#define LOGIC_HIGH_THRES   2.5  // threshold level for high, including the value itself (HIGH >= LOGIC_HIGH_THRES)
-
-
-#ifndef _DLL_H_
-#define _DLL_H_
-
-#define DLLIMPORT __declspec (dllexport)
+#include "lua.h"
+#include "lauxlib.h"
 
 
-//DLLIMPORT uchar _stdcall NumInputs();
-//DLLIMPORT uchar _stdcall NumOutputs();
-DLLIMPORT uchar _stdcall CNumInputsEx(double *PUser);
-DLLIMPORT uchar _stdcall CNumOutputsEx(double *PUser);
+//**************************************************************************************
+//*** plSerialModuleTest
+//***
+//*** Returns string to test the new serial module...
+//*** LUA STACK IN:
+//***  L1 -> number of device
+//*** LUA STACK OUT:
+//***  "string" : name of device
+//***  nil      : ERROR
+//**************************************************************************************
+static int plSerialModuleTest( lua_State *L )
+{
+	if( lua_gettop(L) != 0 )
+	{
+		lua_pushnil(L);
+		return 1;
+	}
 
-DLLIMPORT void _stdcall GetInputName(uchar Channel, uchar *Name);
-DLLIMPORT void _stdcall GetOutputName(uchar Channel, uchar *Name);
+	lua_pushstring( L, "HERE'S THE SERIAL MODULE!" );
 
-//DLLIMPORT void _stdcall CCalculate(double *PInput, double *POutput, double *PUser);
-DLLIMPORT void _stdcall CCalculateEx(double *PInput, double *POutput, double *PUser, uchar **PStrings);
-
-DLLIMPORT void _stdcall CSimStart(double *PInput, double *POutput, double *PUser);
-DLLIMPORT void _stdcall CSimStop(double *PInput, double *POutput, double *PUser);
-
-//DLLIMPORT void _stdcall CConfigure(double *PUser);
+	return 1;
+}
 
 
-#endif
+
+
+static const struct luaL_Reg serial_funcs[] = {
+  { "GetTestString",		plSerialModuleTest },
+  { NULL, NULL }
+};
+
+//**************************************************************************************
+//*** luaopen_profiserial
+//***
+//***
+//**************************************************************************************
+LUALIB_API int luaopen_profiserial( lua_State *L )
+{
+  luaL_register(L, "proserial", serial_funcs);
+
+  return 1;
+}
 

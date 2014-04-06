@@ -12,13 +12,13 @@
 				<Option type="3" />
 				<Option compiler="tdm-gcc_32_bit" />
 				<Option createDefFile="1" />
-				<Option createStaticLib="1" />
 			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-DBUILDING_DLL=1" />
 		</Compiler>
 		<Linker>
+			<Add option="-Wl,--add-stdcall-alias" />
 			<Add library="winmm" />
 		</Linker>
 		<Unit filename="ProfiLua.rc">
@@ -205,6 +205,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/profimidi.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/profiserial.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Extensions>

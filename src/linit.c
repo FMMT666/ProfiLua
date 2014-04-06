@@ -22,9 +22,10 @@ static const luaL_Reg lualibs[] = {
   {LUA_STRLIBNAME, luaopen_string},
   {LUA_MATHLIBNAME, luaopen_math},
   {LUA_DBLIBNAME, luaopen_debug},
-  {LUA_PROFILUALIBNAME, luaopen_profilua},		// ASkr ProfiLua
-  {LUA_PROFIBITLIBNAME, luaopen_profibit},		// ASkr ProfiBit
-  {LUA_PROFIMIDILIBNAME, luaopen_profimidi},	// ASkr ProfiMidi
+  {LUA_PROFILUALIBNAME, luaopen_profilua},				// ASkr ProfiLua
+  {LUA_PROFIBITLIBNAME, luaopen_profibit},				// ASkr ProfiBit
+  {LUA_PROFIMIDILIBNAME, luaopen_profimidi},			// ASkr ProfiMidi
+  {LUA_PROFISERIALLIBNAME, luaopen_profiserial},	// ASkr ProfiSerial
   {NULL, NULL}
 };
 

@@ -51,8 +51,12 @@ LUALIB_API int (luaopen_profibit) (lua_State *L);
 #define LUA_PROFIMIDILIBNAME	"promidi"
 LUALIB_API int (luaopen_profimidi) (lua_State *L);
 
+// ASkr, ProfiSerial
+#define LUA_PROFISERIALLIBNAME	"proserial"
+LUALIB_API int (luaopen_profiserial) (lua_State *L);
+
 /* open all previous libraries */
-LUALIB_API void (luaL_openlibs) (lua_State *L); 
+LUALIB_API void (luaL_openlibs) (lua_State *L);
 
 
 #ifndef lua_assert

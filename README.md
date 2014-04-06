@@ -9,8 +9,8 @@ For binaries, examples and more, see [http://www.askrprojects.net/software/profi
 
 ## TODO
 
-  - DLL build infos
-  - Eine deutsche Übersetzung der Webseite?
+  - serial interface
+  - update to newest Lua kernel
   - ...
 
 
