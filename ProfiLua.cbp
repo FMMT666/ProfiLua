@@ -20,6 +20,8 @@
 		<Linker>
 			<Add option="-Wl,--add-stdcall-alias" />
 			<Add library="winmm" />
+			<Add library="lib\libBecauseHWSerialLib.a" />
+			<Add library="lib\SerialCore_x86.a" />
 		</Linker>
 		<Unit filename="ProfiLua.rc">
 			<Option compilerVar="WINDRES" />

@@ -32,6 +32,13 @@
 #include <stdint.h>
 #include <mem.h>
 
+
+
+#include "..\asTest.h"
+
+
+
+
 #define LUA_LIB
 
 #include "lua.h"
@@ -63,9 +70,62 @@ static int plSerialModuleTest( lua_State *L )
 
 
 
+//**************************************************************************************
+//*** plSerialMount
+//***
+//***
+//*** LUA STACK IN:
+//***  none
+//*** LUA STACK OUT:
+//***  number   : handle of serial object
+//***  nil      : ERROR
+//**************************************************************************************
+static int plSerialMount( lua_State *L )
+{
+	if( lua_gettop(L) != 0 )
+	{
+		lua_pushnil(L);
+		return 1;
+	}
+
+	lua_pushnumber( L, Mount() );
+
+	return 1;
+}
+
+
+
+//**************************************************************************************
+//*** plSerialCheck
+//***
+//***
+//*** LUA STACK IN:
+//***  L1 -> handle
+//***  L2 -> port
+//*** LUA STACK OUT:
+//***  number   : 0  ->  port not available
+//***             1  ->  port available and free
+//**************************************************************************************
+static int plSerialCheck( lua_State *L )
+{
+	if( lua_gettop(L) != 2 )
+	{
+		lua_pushnil(L);
+		return 1;
+	}
+
+	lua_pushnumber( L, Check( luaL_checkinteger(L,1), luaL_checkinteger(L,2) ) );
+
+	return 1;
+}
+
+
+
 
 static const struct luaL_Reg serial_funcs[] = {
   { "GetTestString",		plSerialModuleTest },
+  { "Mount",						plSerialMount },
+  { "Check",						plSerialCheck },
   { NULL, NULL }
 };
 
