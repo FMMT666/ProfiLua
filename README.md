@@ -11,18 +11,26 @@ Released parts of the serial interface as [BecauseHW!SerialLib][5].
 
 ## NEWS
 
-#### 10.04.2014
+#### 04/2014
 
-    - serial interface module is on its way
-    - serial core linked as library, for now
-    - built in:
-      - Mount()
-      - Check() 
+  Serial interface is up and running.  
+  Available functions, for now:
 
+   - Mount()
+   - UnMount()
+   - CheckPort()
+   - Open()
+   - Close()
+   - SendByte()
+   - BufferCount()
+   - Config()
+   - ReadByte()
+   - BufferFlush()
 
 ## TODO
 
-  - update to newest Lua kernel
+  - documentation
+  - update to (newest) Lua kernel 5.2.x
   - ...
 
 
@@ -50,7 +58,7 @@ Released parts of the serial interface as [BecauseHW!SerialLib][5].
 ### 1.0
 
     - CHG: switched to TDM-GCC and Code::Blocks
-    - NOW: implementing serial interface
+    - NEW: serial interface
 
 
 

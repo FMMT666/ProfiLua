@@ -32,41 +32,12 @@
 #include <stdint.h>
 #include <mem.h>
 
-
-
-#include "..\asTest.h"
-
-
-
+#include "asSerialCollectCWrap.h"
 
 #define LUA_LIB
 
 #include "lua.h"
 #include "lauxlib.h"
-
-
-//**************************************************************************************
-//*** plSerialModuleTest
-//***
-//*** Returns string to test the new serial module...
-//*** LUA STACK IN:
-//***  L1 -> number of device
-//*** LUA STACK OUT:
-//***  "string" : name of device
-//***  nil      : ERROR
-//**************************************************************************************
-static int plSerialModuleTest( lua_State *L )
-{
-	if( lua_gettop(L) != 0 )
-	{
-		lua_pushnil(L);
-		return 1;
-	}
-
-	lua_pushstring( L, "HERE'S THE SERIAL MODULE!" );
-
-	return 1;
-}
 
 
 
@@ -77,18 +48,40 @@ static int plSerialModuleTest( lua_State *L )
 //*** LUA STACK IN:
 //***  none
 //*** LUA STACK OUT:
-//***  number   : handle of serial object
-//***  nil      : ERROR
+//***  number   : handle of serial object ( 0 == error; >0 handle of serial port)
 //**************************************************************************************
 static int plSerialMount( lua_State *L )
 {
-	if( lua_gettop(L) != 0 )
-	{
-		lua_pushnil(L);
-		return 1;
-	}
+	int ret = 0;
 
-	lua_pushnumber( L, Mount() );
+	if( lua_gettop(L) == 0 )
+		ret = Mount();
+
+	lua_pushnumber( L, ret );
+
+	return 1;
+}
+
+
+
+//**************************************************************************************
+//*** plSerialUnMount
+//***
+//***
+//*** LUA STACK IN:
+//***  L1: handle
+//*** LUA STACK OUT:
+//***  number   : 0  ->  error
+//***             1  ->  success
+//**************************************************************************************
+static int plSerialUnMount( lua_State *L )
+{
+	int ret = 0;
+
+	if( lua_gettop(L) == 1 )
+		ret = UnMount( luaL_checkinteger( L, 1 ) );
+
+	lua_pushnumber( L, ret );
 
 	return 1;
 }
@@ -121,11 +114,198 @@ static int plSerialCheck( lua_State *L )
 
 
 
+//**************************************************************************************
+//*** plSerialOpen
+//***
+//***
+//*** LUA STACK IN:
+//***  L1 -> handle
+//***  L2 -> port
+//*** LUA STACK OUT:
+//***  number   : 0  ->  ERROR
+//***             1  ->  OK
+//**************************************************************************************
+static int plSerialOpen( lua_State *L )
+{
+	int ret = 0;
+
+	if( lua_gettop(L) == 2 )
+		ret = Open( luaL_checkinteger(L,1), luaL_checkinteger(L,2) );
+
+	lua_pushnumber( L, ret );
+
+	return 1;
+}
+
+
+
+//**************************************************************************************
+//*** plSerialClose
+//***
+//***
+//*** LUA STACK IN:
+//***  L1 -> handle
+//*** LUA STACK OUT:
+//***  number   : 0  ->  ERROR
+//***             1  ->  OK
+//**************************************************************************************
+static int plSerialClose( lua_State *L )
+{
+	int ret = 0;
+
+	if( lua_gettop(L) == 1 )
+		ret = Close( luaL_checkinteger(L,1) );
+
+	lua_pushnumber( L, ret );
+
+	return 1;
+}
+
+
+
+//**************************************************************************************
+//*** plSerialSendByte
+//***
+//***
+//*** LUA STACK IN:
+//***  L1 -> handle
+//***  L2 -> byte to send
+//*** LUA STACK OUT:
+//***  number   : 0  ->  ERROR
+//***             1  ->  OK
+//**************************************************************************************
+static int plSerialSendByte( lua_State *L )
+{
+	int ret = 0;
+
+	if( lua_gettop(L) == 2 )
+		ret = SendByte( luaL_checkinteger(L,1), luaL_checkinteger(L,2) );
+
+	lua_pushnumber( L, ret );
+
+	return 1;
+}
+
+
+
+//**************************************************************************************
+//*** plSerialBufferCount
+//***
+//***
+//*** LUA STACK IN:
+//***  L1 -> handle
+//*** LUA STACK OUT:
+//***  number   :  <0  ->  ERROR (OVERFLOW or WHATEVER)
+//***             >=0  ->  number of bytes in the receive buffer
+//**************************************************************************************
+static int plSerialBufferCount( lua_State *L )
+{
+	int ret = -1;
+
+	if( lua_gettop(L) == 1 )
+		ret = BufferCount( luaL_checkinteger(L,1) );
+
+	lua_pushnumber( L, ret );
+
+	return 1;
+}
+
+
+
+//**************************************************************************************
+//*** plSerialConfig
+//***
+//***
+//*** LUA STACK IN:
+//***  L1 -> handle
+//***  L2 -> baud rate
+//***  L3 -> bits
+//***  L4 -> parity
+//***  L5 -> stop
+//*** LUA STACK OUT:
+//***  number   :  0  ->  ERROR
+//***              1  ->  OK
+//**************************************************************************************
+static int plSerialConfig( lua_State *L )
+{
+	int ret = 0;
+
+	if( lua_gettop(L) == 5 )
+		ret = Config( luaL_checkinteger(L,1),
+									luaL_checkinteger(L,2),
+									luaL_checkinteger(L,3),
+									luaL_checkinteger(L,4),
+									luaL_checkinteger(L,5) );
+
+	lua_pushnumber( L, ret );
+
+	return 1;
+}
+
+
+
+//**************************************************************************************
+//*** plSerialReadByte
+//***
+//***
+//*** LUA STACK IN:
+//***  L1 -> handle
+//*** LUA STACK OUT:
+//***  number   : <0  ->  ERROR
+//***            >=0  ->  byte
+//**************************************************************************************
+static int plSerialReadByte( lua_State *L )
+{
+	int ret = -1;
+
+	if( lua_gettop(L) == 1 )
+		ret = ReadByte( luaL_checkinteger(L,1) );
+
+	lua_pushnumber( L, ret );
+
+	return 1;
+}
+
+
+
+//**************************************************************************************
+//*** plSerialBufferFlush
+//***
+//***
+//*** LUA STACK IN:
+//***  L1 -> handle
+//*** LUA STACK OUT:
+//***  number   : 0  ->  ERROR
+//***             1  ->  OK
+//**************************************************************************************
+static int plSerialBufferFlush( lua_State *L )
+{
+	int ret = 0;
+
+	if( lua_gettop(L) == 1 )
+		ret = BufferFlush( luaL_checkinteger(L,1) );
+
+	lua_pushnumber( L, ret );
+
+	return 1;
+}
+
+
+
 
 static const struct luaL_Reg serial_funcs[] = {
-  { "GetTestString",		plSerialModuleTest },
   { "Mount",						plSerialMount },
-  { "Check",						plSerialCheck },
+  { "UnMount",					plSerialUnMount },
+  { "CheckPort",				plSerialCheck },
+  { "Open",							plSerialOpen },
+  { "Close",						plSerialClose },
+  { "SendByte",					plSerialSendByte },
+  { "BufferCount",			plSerialBufferCount },
+  { "Config",						plSerialConfig },
+  { "ReadByte",					plSerialReadByte },
+  { "BufferFlush",			plSerialBufferFlush },
+
+
   { NULL, NULL }
 };
 
@@ -136,7 +316,16 @@ static const struct luaL_Reg serial_funcs[] = {
 //**************************************************************************************
 LUALIB_API int luaopen_profiserial( lua_State *L )
 {
-  luaL_register(L, "proserial", serial_funcs);
+  luaL_register( L, "proserial", serial_funcs );
+
+	lua_pushinteger( L, 0 );
+	lua_setglobal( L, "PARITY_NONE" );
+
+	lua_pushinteger( L, 1 );
+	lua_setglobal( L, "PARITY_ODD" );
+
+	lua_pushinteger( L, 2 );
+	lua_setglobal( L, "PARITY_EVEN" );
 
   return 1;
 }

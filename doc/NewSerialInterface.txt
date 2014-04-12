@@ -1,0 +1,19 @@
+
+* PRELIMINARY EMERGENCY DOC *
+
+  New serial interface funcions:
+
+    h = Mount()                -- creates a serial object; 0 = ERROR; >0 = handle of the object
+    r = UnMount(handle)        -- delets the serial object "handle"
+    r = CheckPort(handle,port) -- checks if COM port number "port" is available (on "handle")
+    r = Open(handle, port)     -- opens COM port number "port" on handle "handle"
+    r = Close(handle)          -- closes the opened COM port on handle "handle"
+    r = SendByte(handle, byte) -- sends a byte over the COM port reference by handle "handle"
+    n = BufferCount(handle)    -- counts the number of bytes in the receive buffer of "handle"
+    r = Config(handle,         -- configures the COM port referenced by "handle":
+               baud,           -- baud rate (300..3000000 bits/s)
+               bits,           -- number of bits (5, 6, 7, 8)
+               parity,         -- parity (0, 1, 2 -> NONE, ODD, EVEN)
+               stop)           -- number of stop bits (1, 2)
+    n = ReadByte(handle)       -- read a byte from the reiceive buffer ( <0 = EMPTY; >=0 = byte)
+    r = BufferFlush(handle)    -- empty the receive buffer
