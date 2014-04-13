@@ -79,7 +79,7 @@ static int plSerialUnMount( lua_State *L )
 	int ret = 0;
 
 	if( lua_gettop(L) == 1 )
-		ret = UnMount( luaL_checkinteger( L, 1 ) );
+		ret = UnMount( lua_tonumber( L, 1 ) );
 
 	lua_pushnumber( L, ret );
 
@@ -107,7 +107,7 @@ static int plSerialCheck( lua_State *L )
 		return 1;
 	}
 
-	lua_pushnumber( L, Check( luaL_checkinteger(L,1), luaL_checkinteger(L,2) ) );
+	lua_pushnumber( L, Check( lua_tonumber(L,1), lua_tonumber(L,2) ) );
 
 	return 1;
 }
@@ -130,7 +130,7 @@ static int plSerialOpen( lua_State *L )
 	int ret = 0;
 
 	if( lua_gettop(L) == 2 )
-		ret = Open( luaL_checkinteger(L,1), luaL_checkinteger(L,2) );
+		ret = Open( lua_tonumber(L,1), lua_tonumber(L,2) );
 
 	lua_pushnumber( L, ret );
 
@@ -154,7 +154,7 @@ static int plSerialClose( lua_State *L )
 	int ret = 0;
 
 	if( lua_gettop(L) == 1 )
-		ret = Close( luaL_checkinteger(L,1) );
+		ret = Close( lua_tonumber(L,1) );
 
 	lua_pushnumber( L, ret );
 
@@ -169,17 +169,71 @@ static int plSerialClose( lua_State *L )
 //***
 //*** LUA STACK IN:
 //***  L1 -> handle
-//***  L2 -> byte to send
+//***  L2 -> number, string or table (with numbers and strings) to send
 //*** LUA STACK OUT:
 //***  number   : 0  ->  ERROR
-//***             1  ->  OK
+//***            >0  ->  number of bytes sent
 //**************************************************************************************
-static int plSerialSendByte( lua_State *L )
+static int plSerialSend( lua_State *L )
 {
 	int ret = 0;
+	size_t strLen, i, j;
+	const char *pData	;
 
 	if( lua_gettop(L) == 2 )
-		ret = SendByte( luaL_checkinteger(L,1), luaL_checkinteger(L,2) );
+	{
+		switch( lua_type(L,2) )
+		{
+			//------------------------------------------------------------------------------
+			// send a number
+			case LUA_TNUMBER:
+				ret = SendByte( lua_tonumber(L,1), lua_tonumber(L,2) );
+				break;
+
+			//------------------------------------------------------------------------------
+			// send a string
+			case LUA_TSTRING:
+				pData = lua_tolstring(L, 2, &strLen );
+				for( i = 0; i < strLen; ++i )
+					ret += SendByte( lua_tonumber(L,1), *pData++ );
+				break;
+
+			//------------------------------------------------------------------------------
+			// send the contents of a table
+			case LUA_TTABLE:
+
+				for( i = 1; 1; i++ )
+				{
+					lua_pushnumber( L, i );
+					lua_gettable( L, 2 );
+
+					//-------------------------------------------------------
+					if( lua_type( L, -1 ) == LUA_TNUMBER )
+					{
+						ret = SendByte( lua_tonumber(L,1), lua_tonumber(L,-1) );
+						lua_pop( L, 1 );
+					}
+					//-------------------------------------------------------
+					else if( lua_type( L, -1 ) == LUA_TSTRING )
+					{
+						pData = lua_tolstring(L, -1, &strLen );
+						for( j = 0; j < strLen; ++j )
+							ret += SendByte( lua_tonumber(L,1), *pData++ );
+						lua_pop( L, 1 );
+					}
+					//-------------------------------------------------------
+					else
+					{
+						lua_pop( L, 1 );
+						break;
+					}
+
+				}//END for all table elements
+				break;// case LUA_TTABLE
+
+		}//END switch
+
+	}//END lua_gettop == 2
 
 	lua_pushnumber( L, ret );
 
@@ -203,7 +257,7 @@ static int plSerialBufferCount( lua_State *L )
 	int ret = -1;
 
 	if( lua_gettop(L) == 1 )
-		ret = BufferCount( luaL_checkinteger(L,1) );
+		ret = BufferCount( lua_tonumber(L,1) );
 
 	lua_pushnumber( L, ret );
 
@@ -231,11 +285,11 @@ static int plSerialConfig( lua_State *L )
 	int ret = 0;
 
 	if( lua_gettop(L) == 5 )
-		ret = Config( luaL_checkinteger(L,1),
-									luaL_checkinteger(L,2),
-									luaL_checkinteger(L,3),
-									luaL_checkinteger(L,4),
-									luaL_checkinteger(L,5) );
+		ret = Config( lua_tonumber(L,1),
+									lua_tonumber(L,2),
+									lua_tonumber(L,3),
+									lua_tonumber(L,4),
+									lua_tonumber(L,5) );
 
 	lua_pushnumber( L, ret );
 
@@ -259,7 +313,7 @@ static int plSerialReadByte( lua_State *L )
 	int ret = -1;
 
 	if( lua_gettop(L) == 1 )
-		ret = ReadByte( luaL_checkinteger(L,1) );
+		ret = ReadByte( lua_tonumber(L,1) );
 
 	lua_pushnumber( L, ret );
 
@@ -283,7 +337,7 @@ static int plSerialBufferFlush( lua_State *L )
 	int ret = 0;
 
 	if( lua_gettop(L) == 1 )
-		ret = BufferFlush( luaL_checkinteger(L,1) );
+		ret = BufferFlush( lua_tonumber(L,1) );
 
 	lua_pushnumber( L, ret );
 
@@ -299,13 +353,11 @@ static const struct luaL_Reg serial_funcs[] = {
   { "CheckPort",				plSerialCheck },
   { "Open",							plSerialOpen },
   { "Close",						plSerialClose },
-  { "SendByte",					plSerialSendByte },
+  { "Send",							plSerialSend },
   { "BufferCount",			plSerialBufferCount },
   { "Config",						plSerialConfig },
   { "ReadByte",					plSerialReadByte },
   { "BufferFlush",			plSerialBufferFlush },
-
-
   { NULL, NULL }
 };
 

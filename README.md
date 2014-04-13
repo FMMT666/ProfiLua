@@ -21,7 +21,7 @@ Released parts of the serial interface as [BecauseHW!SerialLib][5].
    - CheckPort()
    - Open()
    - Close()
-   - SendByte()
+   - Send()
    - BufferCount()
    - Config()
    - ReadByte()
@@ -30,6 +30,14 @@ Released parts of the serial interface as [BecauseHW!SerialLib][5].
 ## TODO
 
   - documentation
+  - replace luaL-check...() with lua-to...()  
+    might give strange results, but will reduce Profilab crashes due to prog errors  
+  - catch errors (e.g. call of non-existant functions)
+  - just thought about the fact that this:  
+	    gNumInputs  = 4  
+	    InputNames  = {"NumTrig","StringTrig","TableTrig","ReadTrig"}  
+	is somehow redundant; determine gNumInputs by number of elements in InputNames
+    (same for output)
   - update to (newest) Lua kernel 5.2.x
   - ...
 

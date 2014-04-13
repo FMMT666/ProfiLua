@@ -42,4 +42,6 @@
 extern void DebugConsoleOn();
 extern void DebugConsoleOff();
 extern void DebugConsoleTop();
+extern void DebugLuaStack ( lua_State *L );
+
 
