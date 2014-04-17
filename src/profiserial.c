@@ -101,14 +101,13 @@ static int plSerialUnMount( lua_State *L )
 //**************************************************************************************
 static int plSerialCheck( lua_State *L )
 {
-	if( lua_gettop(L) != 2 )
-	{
-		lua_pushnil(L);
-		return 1;
-	}
+	int ret = 0;
+	
+	if( lua_gettop(L) == 2 )
+		ret = Check( lua_tonumber(L,1), lua_tonumber(L,2) );
 
-	lua_pushnumber( L, Check( lua_tonumber(L,1), lua_tonumber(L,2) ) );
-
+	lua_pushnumber( L, ret );
+		
 	return 1;
 }
 
