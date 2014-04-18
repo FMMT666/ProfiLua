@@ -13,23 +13,11 @@ Released parts of the serial interface as [BecauseHW!SerialLib][5].
 
 #### 04/2014
 
-  Serial interface is up and running.  
-  Available functions, for now:
-
-   - Mount()
-   - UnMount()
-   - CheckPort()
-   - Open()
-   - Close()
-   - Send()
-   - BufferCount()
-   - Config()
-   - ReadByte()
-   - BufferFlush()
+  - serial interface is up and running
+  - added two baud rates 500 and 512kbit/s  
 
 ## TODO
 
-  - documentation
   - replace luaL-check...() with lua-to...()
   - check incoming arguments  
     might give strange results, but will reduce Profilab crashes due to prog errors  
@@ -68,6 +56,10 @@ Released parts of the serial interface as [BecauseHW!SerialLib][5].
 
     - CHG: switched to TDM-GCC and Code::Blocks
     - NEW: serial interface
+
+### 1.0a
+
+    - NEW: added baud rates 500000 and 512000 kbit/s
 
 
 

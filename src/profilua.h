@@ -28,7 +28,7 @@
 //
 
 
-#define PROFILUAVERSION    "v1.0"
+#define PROFILUAVERSION    "v1.0a"
 
 
 #ifndef uchar
